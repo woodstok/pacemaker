@@ -1,0 +1,95 @@
+body, html {font-family: 'Open Sans', sans-serif; padding-top:1.5em; background: #444;}
+.search-status {
+    display:inline-block;
+    float:left;
+    margin-left:5px;
+}
+#top-fields {margin-top: 8px; background: #FFF; padding-top:1em; padding-bottom:1em;}
+#top-fields h1 {margin-bottom: 8px;}
+#top-fields .btn-group {margin-bottom: 8px;}
+div.navbar.navbar-fixed-top li a {line-height: 30px;}
+.spinner {
+    background-image: url('../img/ajax-loader.gif');
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.go-button-row {
+    padding-top: 1em; 
+    text-align: right;
+    height:28px;
+    padding-bottom: 1em;
+}
+.go-button-row div {
+    height:100%;
+}
+#go_status {
+    min-height: 5px;
+}
+#save_status {
+    min-height: 5px;
+}
+/*.alert input {margin-bottom:0}*/
+.dropdown-menu a.disabled {color: #cccccc;}
+.dropdown-menu li>a.disabled:hover {color:#cccccc;text-decoration:none; background-color: none;}
+#playlist {margin-top:8px; background-color: #FFF; padding: 1em 0;}
+.red {color: #b94a48;}
+.gray {color: #707070;}
+.playlist-item-content h3 {
+    display:inline;
+}
+.play-button2 {
+    position:relative;
+    height:100px;
+    width:100px;
+    padding-left:20px;
+}
+.release-img-container {
+    z-index:1;
+    position:absolute;
+    max-width:100%;
+    height:auto;
+}
+.release-img {
+    max-width:100%;
+    height:auto;
+}
+.play-button-inner {
+    display: block;
+    z-index:2;
+    position:absolute;
+    max-width:100%;
+    height:auto;
+}
+.play-button-inner .playing {
+    background-image: url(../img/pause.png);
+}
+.play-button-inner .loading {
+    background-image: url(../img/loading.png);
+}
+.border-for-bottom-of-playlist-item {
+    margin-left:0px;
+    padding:10px 0;
+}
+.playlist-item-container hr {
+    margin-top:0;
+    margin-bottom:0;
+    padding-top:0;
+    padding-bottom:0;
+}
+.song-row .smaller {
+    font-size:80%;
+}
+.song-row .smaller .progress {
+    height:12px;
+    width:120px;
+    float:left;
+    margin-top:2.5px;
+}
+.page-shadow {box-shadow: 2px 2px 4px rgba(0,0,0,0.5);}
+.tooltipped {width:67px; float:left;}
+.audio-qualities-row {float:left; height:22px}
+.title-and-artist {padding-bottom:5px;}
+.audio-data {color: #ccc; float:left; margin-left:5px; width:10px;}
+.constraint {padding-bottom:15px; min-height:20px;}
+.constraint .close {float:left;}
+.constraint h4 {display:inline;}

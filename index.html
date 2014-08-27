@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>The name of the app</title>
+    <!-- Include the stylesheets you need for the Views components -->
+    <!-- See https://developer.spotify.com/docs/apps/views/1.0/ -->
+    <link rel="stylesheet" href="$views/css/image.css">
+    <link rel="stylesheet" href="$views/css/list.css">
+    <link rel="stylesheet" href="$views/css/buttons.css">
+    <!-- <link rel="stylesheet" href="$views/css/throbber.css"> -->
+    <link rel="stylesheet" href="css/style.css">
+<link                  href="static_files/css.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="static_files/bootstrap.css" type="text/css">
+<link rel="stylesheet" href="static_files/jquery-ui-1.css" type="text/css">
+<link rel="stylesheet" href="static_files/app.css" type="text/css">
+  </head>
+  <body>
+    <h1></h1>
+<!--     <div id="albumCoverContainer"></div>
+    <div id="buttonContainer"></div>
+    <div id="playlistContainer"></div> -->
+<div class="navbar navbar-fixed-top" style="box-shadow:0px 3px 5px rgba(0,0,0,0.3);">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="http://the.echonest.com/"><img src="static_files/logo.png"></a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div id="top-fields" class="span12">
+        <div class="row">
+            <div class="span4 offset1">
+                <h1>Static Playlisting</h1>
+            </div>
+            <div class="span7 btn-toolbar" id="playlist-options">
+                <div class="btn-group" id="search-types">
+                    <a class="btn" id="artist" href="#">Artist</a>
+                    <a class="btn" id="song" href="#">Song</a>
+                </div>
+                <div class="btn-group">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Constraints <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" id="variety">Variety</a></li>
+                        <li><a href="#" id="distribution">Distribution</a></li>
+                        <li><a href="#" id="tempo">Tempo</a></li>
+                        <li><a href="#" id="duration">Duration</a></li>
+                        <li><a href="#" id="danceability">Danceability</a></li>
+                        <li><a href="#" id="energy">Energy</a></li>
+                        <li><a href="#" id="artist_hotttnesss">Artist Hotttnesss</a></li>
+                        <li><a href="#" id="song_hotttnesss">Song Hotttnesss</a></li>
+                        <li><a href="#" id="results">Number of Songs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="constraints"></div>
+        <div id="playlist_input" >
+            <div class="constraint row">
+                <div class="span2 offset1">
+                    <span class="hint" style="display:inline-block;">
+                        <h4>Save Playlist</h4>
+                    </span>
+                </div>
+                <div class="span8 constraint-container">
+                    <div class="control-group">
+                        <div class="row">
+                            <div class="span6">
+                                <input id="playlist_field" type="search" class="span6" placeholder="Playlist Name">
+                            </div>
+                            <a class=" span1 btn" id="save_playlist" href="#">Save</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- end playlist_input -->
+
+        <div class="row go-button-row">
+            <div class="offset7 span3" id="go_status">
+            </div>
+            <div class="span1">
+                <button class="btn btn-success" style="display:none;" id="go">Go</button> 
+
+            </div>
+        </div> <!-- /.row for go button -->
+<!--         <div class="row go-button-row">
+            <div class="offset7 span3" id="save_status">
+            </div>
+            <div class="span1">
+                <button class="btn btn-success" style="display:none;" id="save_playlist">Save Playlist</button> 
+            </div>
+        </div> --> <!-- /.row for go button -->
+    </div> <!-- /#top-fields -->
+  </div>
+  <div id="playlist-target" class="row"></div>
+</div> <!-- /.container -->
+    
+<!-- playlist templates -->
+<script type="underscore/template" id="playlist_wrapper">
+    <div id="playlist" class="span8 offset2 page-shadow"></div>
+</script>
+
+<script type="underscore/template" id="playlist_loading">
+    <div id="playlist" class="span8 offset2 spinner page-shadow"></div>
+</script>
+
+<script type="underscore/template" id="playlist_items">
+<% for (var i = 0; i < songs.length; i++) { %>
+<% var song = songs[i]; %>
+<% var track = song.track; %>
+
+<div class="song-row playlist-item-container" data-song="<%=song.id%>">
+    <div class="row playlist-item-content">  
+        <div class="release-image-play-button span2">
+            <div class="play-button2" id="<%=song.id%>">
+                <div class="release-img-container">
+                    <img class="release-img" src="<%=track.release_image%>"/>
+                </div>
+                <div class="play-button-inner" id="<%=song.id%>" data-mp3="<%=track.preview_url%>" data-status="" data-prev_song="<%=song.prev%>" data-next_song="<%=song.next%>">
+                    <img src="static/img/loading.png" style="max-width:100%; height:auto;"/>
+                </div>
+            </div>
+        </div> <!-- /.release-image-play-button -->
+        <div class="title-artist-and-audio-qualities span6">
+            <div class="title-and-artist row">
+                <h3><i><%=song.title%></i></h3>
+                &nbsp;&nbsp; - &nbsp;&nbsp;
+                <h3><%=song.artist_name%></h3>
+            </div> <!-- /.title-and-artist -->
+            <div class="smaller audio-qualities-row row" style="padding-bottom: 5px">
+                <div class="span3">
+                    <div class="row">
+                        <div class="tooltipped" data-original-title="Beats per minute">
+                            <strong>Tempo</strong>
+                        </div>
+                        <div class="progress">
+                            <div class="bar" style="width:<%=(100*song.audio_summary.tempo/240)%>px; height:12px;"></div>
+                        </div>
+                        <div class="audio-data">
+                            <%print(Math.floor(song.audio_summary.tempo))%>
+                        </div>
+                    </div>
+                </div> <!-- / tempo info -->
+                <div class="span3">
+                    <div class="row">
+                        <div class="tooltipped" data-original-title="A measure of the rhythmic intensity">
+                            <strong>Danceability</strong>
+                        </div>
+                        <div class="progress">
+                            <div class="bar" style="width:<%=(100*song.audio_summary.danceability)%>px; height:12px;"></div>
+                        </div>
+                        <div class="audio-data">
+                            <%=(Math.round(song.audio_summary.danceability*100)/100)%>
+                        </div>
+                    </div>
+                </div> <!-- / danceability info -->
+            </div> <!-- /.audio-qualities-row -->
+            <div class="smaller audio-qualities-row row">
+                <div class="span3">
+                    <div class="row">
+                        <div class="tooltipped" data-original-title="A measure of the power and drive">
+                            <strong>Energy</strong>
+                        </div>
+                        <div class="progress">
+                            <div class="bar" style="width:<%=(song.audio_summary.energy*100)%>px; height:12px;"></div>
+                        </div>
+                        <div class="audio-data">
+                            <%=(Math.round(song.audio_summary.energy*100)/100)%>
+                        </div>
+                    </div>
+                </div> <!-- / energy info -->
+                <div class="span3">
+                    <div class="row">
+                      <% if (song.artist_hotttnesss !== undefined && song.artist_hotttnesss !== 0) { %>
+                        <div class="tooltipped" data-original-title="A measure of the total audio volume">
+                            <strong>Hotttnesss</strong>
+                        </div>
+                        <div class="progress">
+                            <div class="bar" style="width:<%=(song.artist_hotttnesss*100)%>px; height:12px;"></div>
+                        </div>
+                        <div class="audio-data">
+                            <%=(Math.round(song.artist_hotttnesss*100)/100)%>
+                        </div>
+                      <% } %>
+                    </div>
+                </div> <!-- / artist_hotttnesss info -->
+            </div> <!-- /.audio-qualities-row -->
+        </div> <!-- /.title-artist-and-audio-qualities -->
+    </div> <!-- /.playlist-item-content -->
+    <div class="row border-for-bottom-of-playlist-item">
+        <hr class="" style="margin-top:0px; padding-top:0px; margin-bottom:0px; padding-bottom:0px;">
+    </div>
+</div> <!-- /.playlist-item-container -->
+<% } %>
+</script>
+
+
+<!-- constraint templates -->
+<script type="underscore/template" id="constraint_wrapper">
+<div class="constraint row" data-type="<%=type%>">
+    <div class="span2 offset1">
+        <span class="hint" style="display:inline-block;" data-content="<%=hint.content%>" title="<%=hint.title%>">
+            <h4><%=title%><span style="font-size:x-small; color:#888;">&nbsp;<sup>?</sup></span></h4>
+        </span>
+    </div>
+    <div class="span8 constraint-container">
+        <%=wrapped_html%>
+    </div>
+    <div class="span1">
+        <a class="close" href="#">&times;</a>
+    </div>
+</div>
+</script>
+
+<script type="underscore/template" id="add_artist">
+<div class="control-group">
+    <div class="row">
+        <div class="span6">
+            <input type="search" class="span6 artist-search artist-only-search" placeholder="Artist Name" data-prev_val="" data-id="">
+        </div>
+    </div>
+    <div class="row status-msg hide">
+        <span class="spinner" style="background-image:url('static/img/ajax-loader.gif'); background-repeat:no-repeat; background-position:center; width:15px; height:15px; display:none; float:left;"></span>
+        <span class="data-status search-status" data-status="failure">&nbsp;</span>
+    </div>
+</div>
+</script>
+
+<script type="underscore/template" id="add_song">
+<div class="control-group add-song-control-group">
+    <div class="row">
+        <div class="span4">
+            <input type="search" class="song-search span4" placeholder="Title" data-prev_val="" data-id="">
+        </div>
+        <div class="span4">
+            <input type="search" class="artist-search span4" placeholder="Artist" data-prev_val="" data-id="">
+        </div>
+    </div>
+    <div class="row status-msg hide">
+        <span class="spinner" style="background-image:url('static/img/ajax-loader.gif'); background-repeat:no-repeat; background-position:center; width:15px; height:15px; display:none;"></span>
+        <span class="span7 data-status search-status" data-status="failure">&nbsp;</span>
+    </div>
+</div>
+</script>
+
+<script type="underscore/template" id="added_artist">
+<div class="song row">
+    <div class="span8">
+        <h4><%=artist_name%></h4>
+    </div>
+</div>
+</script>
+
+<script type="underscore/template" id="added_song">
+<div class="song row">
+    <div class="span8">
+        <h4><i><%=song.title%></i></h4>
+        &nbsp;&nbsp; - &nbsp;&nbsp;
+        <h4><%=song.artist_name%></h4>
+    </div>
+</div>
+</script>
+
+<script type="underscore/template" id="add_distribution">
+<div class="btn-group">
+    <button class="btn toggle" value="focused">Focused</button>
+    <button class="btn toggle" value="wandering">Wandering</button>
+</div>
+</script>
+
+<script type="underscore/template" id="add_single_slider">
+<div class="row">
+    <div class="span6 slider-container">
+        <div class="single-slider" data-min="<%=min%>" data-max="<%=max%>" data-default_val="<%=defalt%>" data-step="<%=step%>" data-param_name="<%=type%>"></div>
+    </div>
+    <div class="span2 slider-value-container slider_value" id=<%print('"show_val_'+type+'"')%>>
+    </div>
+</div>
+</script>
+
+<script type="underscore/template" id="add_double_slider">
+<div class="row">
+    <% 
+        var param1name = 'min_' + type;
+        var param2name = 'max_' + type;
+        if (type === 'artist_hotttnesss') {
+            param1name = 'artist_min_hotttnesss';
+            param2name = 'artist_max_hotttnesss';
+        }
+        if (type === 'song_hotttnesss') {
+            param1name = 'song_min_hotttnesss';
+            param2name = 'song_max_hotttnesss';
+        }
+    %>
+    <div class="span6 slider-container">
+        <div class="double-slider" data-min="<%=min%>" data-max="<%=max%>" data-step="<%=step%>" data-param1_name="<%=param1name%>" data-param2_name="<%=param2name%>"></div>
+    </div>
+    <div class="span2 slider-value-container">
+        <span class="slider_value" id=<%print('"show_min_'+type+'"')%>></span>&nbsp; to &nbsp;<span class="slider_value" id=<%print('"show_max_'+type+'"')%>></span>
+    </div>
+</div>
+</script>
+
+<script src="scripts/main.js"></script>
+<script type="text/javascript" src="static_files/raphael.js"></script>
+<script type="text/javascript" src="static_files/en_logo.js"></script>
+<script type="text/javascript" src="static_files/jquery.js"></script>
+<script type="text/javascript" src="static_files/underscore.js"></script>
+<script type="text/javascript" src="static_files/backbone-min.js"></script>
+<script type="text/javascript" src="static_files/bootstrap.js"></script>
+<script type="text/javascript" src="static_files/jquery-ui-1.js"></script>
+<script type="text/javascript" src="static_files/app.js"></script>
+<!-- sound manager 2 -->
+<script type="text/javascript" src="static_files/soundmanager2.js"></script>
+
+
+    
+  </body>
+</html>

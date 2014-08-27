@@ -16,4 +16,5 @@ Remember to replace the api_key variable in static_files/app.js to your echonest
 This means that you would have to have a developer account in spotify ( also echonest ) . Both are very easy to create.
 
 ## More info coming up
+feel free to drop in questions and suggestions on woodstok at outlook dot com
 

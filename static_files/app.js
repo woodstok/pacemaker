@@ -18,7 +18,7 @@
     var templates = {};
     $.ajaxSetup({traditional: true, cache: true});
 
-    var api_key = 'xxxx';
+    var api_key = '***REMOVED***';
     var host = 'http://developer.echonest.com';
     var standard_args = {api_key:api_key, format:'jsonp'};
     var playlist_standard_args = {bucket: ['id:spotify','tracks', 'artist_hotttnesss', 'song_hotttnesss', 'audio_summary'], limit: true};

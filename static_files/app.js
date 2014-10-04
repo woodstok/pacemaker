@@ -241,7 +241,7 @@
                 $constraint_container.addClass('data-status');
                 $constraint_container.data('status', 'success');
                 $constraint_container.data('song_id', info.song.id);
-                $constraint_container.data('artist_name', info.artist_name);
+                $constraint_container.data('song_name', info.song.title);
                 break;
             case 'data-entry-failure':
                 $control_group.find('.status-msg').removeClass('hide');
@@ -392,21 +392,25 @@
             case 'data-entry-success':
             case 'data-entry-failure':
                 $('#go_status').empty();
+
             case 'new-constraint':
             case 'remove-constraint':
             case 'slidechange':
                 if ( n_failure > 0 ) {
                     $('#go').fadeOut(1000);
+                    $('#playlist_input').fadeOut(1000);
                 } else if ( n_success > 0 ) {
                     $('#go_status').empty();
                     $('#go').fadeIn(1000);
                 } else if ( n_success === 0 ) {
                     $('#go').fadeOut(1000);
+                    $('#playlist_input').fadeOut(1000);
                 }
                 break;
             case 'no-song-or-artist':
                 $('#go_status').html('<span class="red"><b>!</b>  Enter a song or artist. &nbsp</span>'); 
                 $('#go').fadeOut(1000);
+                $('#playlist_input').fadeOut(1000);
                 break;
             case 'making-playlist':
                 $('#go_status').empty();
@@ -813,6 +817,7 @@
         
         $('#go').on('click', do_playlist);
         $('#save_playlist').on('click', save_playlist);
+
         $(document).on('data-entry-success data-entry-failure data-entry-pending data-entry-clear new-constraint remove-constraint no-song-or-artist', update_go_button);
         
     });

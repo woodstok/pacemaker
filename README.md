@@ -8,7 +8,7 @@ I have been trying for a while to bring it to completion. This app would help th
 
 I see much use in the tempo filter which i can use to get songs for a particular BPM for running (hence the name pacemaker)
 
-If you don't yet about it, songs with BPM that match your paces while running makes you run longer ( and feel better ). [A lifehacker article about it] (http://lifehacker.com/5905666/music-can-boost-your-running-performance-by-15).
+If you don't know about it, songs with BPM that match your paces while running makes you run longer ( and feel better ). [A lifehacker article about it] (http://lifehacker.com/5905666/music-can-boost-your-running-performance-by-15). Believe me! It changes the way your run. Also, you keep a more constant pace throughout the song. 
 
 Heres how i use this app for running. 
 
